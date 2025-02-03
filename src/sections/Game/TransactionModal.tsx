@@ -1,11 +1,11 @@
-import { decodeGame, getGameAddress, getPlayerUnderlyingAta, getUserUnderlyingAta } from 'gamba-core-v2'
-import { GambaUi } from 'gamba-react-ui-v2'
-import { useAccount, useGamba, useGambaProgram, useSendTransaction, useTransactionStore, useWalletAddress } from 'gamba-react-v2'
-import React from 'react'
-import { Modal } from '../../components/Modal'
-import { LoadingBar, useLoadingState } from './LoadingBar'
+import { decodeGame, getGameAddress, getPlayerUnderlyingAta, getUserUnderlyingAta } from "gamba-core-v2"
+import { GambaUi } from "gamba-react-ui-v2"
+import { useAccount, useGamba, useGambaProgram, useSendTransaction, useTransactionStore, useWalletAddress } from "gamba-react-v2"
+import React from "react"
+import { Modal } from "../../components/Modal/Modal"
+import { LoadingBar, useLoadingState } from "./LoadingBar"
 
-export function TransactionModal(props: {onClose: () => void}) {
+export function TransactionModal(props: { onClose: () => void }) {
   const [closingAccount, setClosingAccount] = React.useState(false)
   const [initializing, setInitializing] = React.useState(false)
   const program = useGambaProgram()
@@ -20,12 +20,7 @@ export function TransactionModal(props: {onClose: () => void}) {
   const initialize = async () => {
     try {
       setInitializing(true)
-      await sendTransaction(
-        program.methods
-          .playerInitialize()
-          .instruction(),
-        { confirmation: 'confirmed' },
-      )
+      await sendTransaction(program.methods.playerInitialize().instruction(), { confirmation: "confirmed" })
     } finally {
       setInitializing(false)
     }
@@ -48,21 +43,13 @@ export function TransactionModal(props: {onClose: () => void}) {
       })
       .instruction()
 
-    await sendTransaction(
-      ix,
-      { confirmation: 'confirmed' },
-    )
+    await sendTransaction(ix, { confirmation: "confirmed" })
   }
 
   const closeAccount = async () => {
     try {
       setClosingAccount(true)
-      await sendTransaction(
-        program.methods
-          .playerClose()
-          .instruction(),
-        { confirmation: 'confirmed' },
-      )
+      await sendTransaction(program.methods.playerClose().instruction(), { confirmation: "confirmed" })
     } finally {
       setClosingAccount(false)
     }
@@ -72,18 +59,16 @@ export function TransactionModal(props: {onClose: () => void}) {
     <Modal onClose={() => props.onClose()}>
       <h1>Transaction</h1>
       {loadingState} - {txStore.state} - {status} - {gamba.nonce.toString()}
-      <div style={{ display: 'flex', gap: '10px' }}>
+      <div style={{ display: "flex", gap: "10px" }}>
         <GambaUi.Button disabled={gamba.userCreated || initializing} onClick={initialize}>
           Open account
         </GambaUi.Button>
-        <GambaUi.Button onClick={reset}>
-          Reset account
-        </GambaUi.Button>
+        <GambaUi.Button onClick={reset}>Reset account</GambaUi.Button>
         <GambaUi.Button disabled={!gamba.userCreated || closingAccount} onClick={closeAccount}>
           Close account
         </GambaUi.Button>
         {txStore.txId && (
-          <GambaUi.Button main onClick={() => window.open('https://solscan.io/tx/' + txStore.txId)}>
+          <GambaUi.Button main onClick={() => window.open("https://solscan.io/tx/" + txStore.txId)}>
             View TX
           </GambaUi.Button>
         )}

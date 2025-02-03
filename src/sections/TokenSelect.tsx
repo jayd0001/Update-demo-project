@@ -1,10 +1,10 @@
-import { PublicKey } from '@solana/web3.js'
-import { FAKE_TOKEN_MINT, GambaPlatformContext, GambaUi, PoolToken, TokenValue, useCurrentToken, useTokenBalance, useTokenMeta } from 'gamba-react-ui-v2'
-import React from 'react'
-import styled from 'styled-components'
-import { Dropdown } from '../components/Dropdown'
-import { Modal } from '../components/Modal'
-import { POOLS } from '../constants'
+import { PublicKey } from "@solana/web3.js"
+import { FAKE_TOKEN_MINT, GambaPlatformContext, GambaUi, PoolToken, TokenValue, useCurrentToken, useTokenBalance, useTokenMeta } from "gamba-react-ui-v2"
+import React from "react"
+import styled from "styled-components"
+import { Dropdown } from "../components/Dropdown/Dropdown"
+import { Modal } from "../components/Modal/Modal"
+import { POOLS } from "../constants"
 
 const StyledToken = styled.div`
   display: flex;
@@ -38,14 +38,12 @@ const StyledTokenButton = styled.button`
   }
 `
 
-function TokenImage({ mint, ...props }: {mint: PublicKey}) {
+function TokenImage({ mint, ...props }: { mint: PublicKey }) {
   const meta = useTokenMeta(mint)
-  return (
-    <StyledTokenImage src={meta.image} {...props} />
-  )
+  return <StyledTokenImage src={meta.image} {...props} />
 }
 
-function TokenSelectItem({ mint }: {mint: PublicKey}) {
+function TokenSelectItem({ mint }: { mint: PublicKey }) {
   const balance = useTokenBalance(mint)
   return (
     <>
@@ -65,10 +63,7 @@ export default function TokenSelect() {
     // if (gamba.isPlaying) return
     context.setPool(pool.token, pool.authority)
     setVisible(false)
-    if (
-      import.meta.env.VITE_REAL_PLAYS_DISABLED &&
-      !pool.token.equals(FAKE_TOKEN_MINT)
-    ) {
+    if (import.meta.env.VITE_REAL_PLAYS_DISABLED && !pool.token.equals(FAKE_TOKEN_MINT)) {
       setWarning(true)
     }
   }
@@ -82,9 +77,7 @@ export default function TokenSelect() {
       {warning && (
         <Modal>
           <h1>Real plays disabled</h1>
-          <p>
-            This platform only allows you to play with fake tokens.
-          </p>
+          <p>This platform only allows you to play with fake tokens.</p>
           <GambaUi.Button
             main
             onClick={() => {
@@ -96,7 +89,7 @@ export default function TokenSelect() {
           </GambaUi.Button>
         </Modal>
       )}
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <GambaUi.Button onClick={click}>
           {selectedToken && (
             <StyledToken>

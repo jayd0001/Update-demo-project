@@ -1,10 +1,10 @@
-import { GambaUi, TokenValue, useCurrentPool, useGambaPlatformContext, useUserBalance } from 'gamba-react-ui-v2'
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
-import { Modal } from '../components/Modal'
-import TokenSelect from './TokenSelect'
-import { UserButton } from './UserButton'
+import { GambaUi, TokenValue, useCurrentPool, useGambaPlatformContext, useUserBalance } from "gamba-react-ui-v2"
+import React from "react"
+import { NavLink } from "react-router-dom"
+import styled from "styled-components"
+import { Modal } from "../components/Modal/Modal"
+import TokenSelect from "./TokenSelect"
+import { UserButton } from "./UserButton"
 
 const Bonus = styled.button`
   all: unset;
@@ -16,7 +16,7 @@ const Bonus = styled.button`
   font-size: 12px;
   text-transform: uppercase;
   font-weight: bold;
-  transition: background .2s;
+  transition: background 0.2s;
   &:hover {
     background: white;
   }
@@ -30,7 +30,7 @@ const StyledHeader = styled.div`
   padding: 10px;
   background: rgba(33, 34, 51, 0.9);
   position: fixed;
-  background: #000000CC;
+  background: #000000cc;
   backdrop-filter: blur(20px);
   top: 0;
   left: 0;
@@ -59,38 +59,33 @@ export default function Header() {
         <Modal onClose={() => setBonusHelp(false)}>
           <h1>Bonus ✨</h1>
           <p>
-            You have <b><TokenValue amount={balance.bonusBalance} /></b> worth of free plays. This bonus will be applied automatically when you play.
+            You have{" "}
+            <b>
+              <TokenValue amount={balance.bonusBalance} />
+            </b>{" "}
+            worth of free plays. This bonus will be applied automatically when you play.
           </p>
-          <p>
-            Note that a fee is still needed from your wallet for each play.
-          </p>
+          <p>Note that a fee is still needed from your wallet for each play.</p>
         </Modal>
       )}
       {jackpotHelp && (
         <Modal onClose={() => setJackpotHelp(false)}>
           <h1>Jackpot 💰</h1>
-          <p style={{ fontWeight: 'bold' }}>
-            There{'\''}s <TokenValue amount={pool.jackpotBalance} /> in the Jackpot.
+          <p style={{ fontWeight: "bold" }}>
+            There{"'"}s <TokenValue amount={pool.jackpotBalance} /> in the Jackpot.
           </p>
-          <p>
-            The Jackpot is a prize pool that grows with every bet made. As the Jackpot grows, so does your chance of winning. Once a winner is selected, the value of the Jackpot resets and grows from there until a new winner is selected.
-          </p>
-          <p>
-            You will be paying a maximum of {(context.defaultJackpotFee * 100).toLocaleString(undefined, { maximumFractionDigits: 4 })}% for each wager for a chance to win.
-          </p>
-          <GambaUi.Switch
-            checked={context.defaultJackpotFee > 0}
-            onChange={(checked) => context.setDefaultJackpotFee(checked ? 0.01 : 0)}
-          />
+          <p>The Jackpot is a prize pool that grows with every bet made. As the Jackpot grows, so does your chance of winning. Once a winner is selected, the value of the Jackpot resets and grows from there until a new winner is selected.</p>
+          <p>You will be paying a maximum of {(context.defaultJackpotFee * 100).toLocaleString(undefined, { maximumFractionDigits: 4 })}% for each wager for a chance to win.</p>
+          <GambaUi.Switch checked={context.defaultJackpotFee > 0} onChange={(checked) => context.setDefaultJackpotFee(checked ? 0.01 : 0)} />
         </Modal>
       )}
       <StyledHeader>
-        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
           <Logo to="/">
             <img alt="Gamba logo" src="/logo.svg" />
           </Logo>
         </div>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', position: 'relative' }}>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center", position: "relative" }}>
           {pool.jackpotBalance > 0 && (
             <Bonus onClick={() => setJackpotHelp(true)}>
               💰 <TokenValue amount={pool.jackpotBalance} />

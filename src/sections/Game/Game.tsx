@@ -1,14 +1,14 @@
-import { GambaUi, useSoundStore } from 'gamba-react-ui-v2'
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { Icon } from '../../components/Icon'
-import { Modal } from '../../components/Modal'
-import { GAMES } from '../../games'
-import { useUserStore } from '../../hooks/useUserStore'
-import { GameSlider } from '../Dashboard/Dashboard'
-import { Container, Controls, IconButton, MetaControls, Screen, Splash } from './Game.styles'
-import { LoadingBar } from './LoadingBar'
-import { ProvablyFairModal } from './ProvablyFairModal'
+import { GambaUi, useSoundStore } from "gamba-react-ui-v2"
+import React from "react"
+import { useParams } from "react-router-dom"
+import { Icon } from "../../components/Icon"
+import { Modal } from "../../components/Modal/Modal"
+import { GAMES } from "../../games"
+import { useUserStore } from "../../hooks/useUserStore"
+import { GameSlider } from "../Dashboard/Dashboard"
+import { Container, Controls, IconButton, MetaControls, Screen, Splash } from "./Game.styles"
+import { LoadingBar } from "./LoadingBar"
+import { ProvablyFairModal } from "./ProvablyFairModal"
 // import { TransactionModal } from './TransactionModal'
 
 function CustomError() {
@@ -38,25 +38,19 @@ function CustomRenderer() {
   const markGameAsPlayed = useUserStore((state) => () => state.markGameAsPlayed(game.id, true))
   const [ready, setReady] = React.useState(false)
 
-  React.useEffect(
-    () => {
-      const timeout = setTimeout(() => {
-        setReady(true)
-      }, 750)
-      return () => clearTimeout(timeout)
-    },
-    [],
-  )
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setReady(true)
+    }, 750)
+    return () => clearTimeout(timeout)
+  }, [])
 
-  React.useEffect(
-    () => {
-      const timeout = setTimeout(() => {
-        setInfo(firstTimePlaying)
-      }, 1000)
-      return () => clearTimeout(timeout)
-    },
-    [firstTimePlaying],
-  )
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInfo(firstTimePlaying)
+    }, 1000)
+    return () => clearTimeout(timeout)
+  }, [firstTimePlaying])
 
   const closeInfo = () => {
     markGameAsPlayed()
@@ -76,9 +70,7 @@ function CustomRenderer() {
           </GambaUi.Button>
         </Modal>
       )}
-      {provablyFair && (
-        <ProvablyFairModal onClose={() => setProvablyFair(false)} />
-      )}
+      {provablyFair && <ProvablyFairModal onClose={() => setProvablyFair(false)} />}
       {/* {txModal && (
         <TransactionModal onClose={() => setTransactionModal(false)} />
       )} */}
@@ -96,14 +88,12 @@ function CustomRenderer() {
             <IconButton onClick={() => setProvablyFair(true)}>
               <Icon.Fairness />
             </IconButton>
-            <IconButton onClick={() => soundStore.set(soundStore.volume ? 0 : .5)}>
-              {soundStore.volume ? <Icon.Volume /> : <Icon.VolumeMuted />}
-            </IconButton>
+            <IconButton onClick={() => soundStore.set(soundStore.volume ? 0 : 0.5)}>{soundStore.volume ? <Icon.Volume /> : <Icon.VolumeMuted />}</IconButton>
           </MetaControls>
         </Screen>
         <LoadingBar />
         <Controls>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: "flex", gap: "10px" }}>
             {/* <div style={{ display: 'flex' }}>
               <IconButton onClick={() => setTransactionModal(true)}>
                 {loading === -1 ? (
@@ -113,7 +103,7 @@ function CustomRenderer() {
                 )}
               </IconButton>
             </div> */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <GambaUi.PortalTarget target="controls" />
               <GambaUi.PortalTarget target="play" />
             </div>
@@ -130,15 +120,7 @@ export default function Game() {
 
   return (
     <>
-      {game ? (
-        <GambaUi.Game
-          game={game}
-          errorFallback={<CustomError />}
-          children={<CustomRenderer />}
-        />
-      ) : (
-        <h1>Game not found! 👎</h1>
-      )}
+      {game ? <GambaUi.Game game={game} errorFallback={<CustomError />} children={<CustomRenderer />} /> : <h1>Game not found! 👎</h1>}
       <GameSlider />
     </>
   )

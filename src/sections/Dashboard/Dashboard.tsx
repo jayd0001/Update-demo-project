@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { SlideSection } from '../../components/Slider'
-import { GAMES } from '../../games'
-import { GameCard } from './GameCard'
-import { WelcomeBanner } from './WelcomeBanner'
+import React from "react"
+import styled from "styled-components"
+import { SlideSection } from "../../components/Slider/Slider"
+import { GAMES } from "../../games"
+import { GameCard } from "./GameCard"
+import { WelcomeBanner } from "./WelcomeBanner"
 
 export function GameSlider() {
   return (
     <SlideSection>
       {GAMES.map((game) => (
-        <div key={game.id} style={{ width: '160px', display: 'flex' }}>
+        <div key={game.id} style={{ width: "160px", display: "flex" }}>
           <GameCard game={game} />
         </div>
       ))}
@@ -46,7 +46,7 @@ export default function Dashboard() {
   return (
     <>
       <WelcomeBanner />
-      <h2 style={{ textAlign: 'center' }}>Games</h2>
+      <h2 style={{ textAlign: "center" }}>Games</h2>
       <GameGrid />
     </>
   )
